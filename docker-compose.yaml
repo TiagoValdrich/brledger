@@ -1,7 +1,13 @@
-version: '3.8'
+version: "3"
+
 services:
-  rabbitmq:
-    image: rabbitmq:management
+  kafka:
+    hostname: 0.0.0.0
+    container_name: kafka
+    image: bitnami/kafka:latest
+    restart: on-failure
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "9092:9092"
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_ADVERTISED_HOST_NAME=127.0.0.1

@@ -8,6 +8,7 @@ import com.tiagovaldrich.brledger.service.MovementService;
 import lombok.AllArgsConstructor;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 public class MovementAdapter {
@@ -26,5 +27,9 @@ public class MovementAdapter {
         movement.setUpdatedAt(currentTime);
 
         return repository.create(movement);
+    }
+
+    public List<Movement> getMovements() {
+        return repository.getMovements();
     }
 }
