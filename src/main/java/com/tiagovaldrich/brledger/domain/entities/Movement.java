@@ -5,7 +5,6 @@ import com.tiagovaldrich.brledger.common.enums.EntryType;
 import com.tiagovaldrich.brledger.common.exceptions.BusinessRuleException;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 @Data
@@ -29,10 +28,10 @@ public class Movement {
                 movement.id(),
                 movement.date(),
                 movement.description(),
-                movement.origin(),
-                movement.destination(),
+                null,
+                null,
                 movement.type(),
-                movement.value().longValue(),
+                movement.value(),
                 movement.referenceId(),
                 movement.createdAt(),
                 movement.updatedAt()
@@ -44,10 +43,10 @@ public class Movement {
                 this.getId(),
                 this.getDate(),
                 this.getDescription(),
-                this.getOrigin(),
-                this.getDestination(),
+                this.origin.getId(),
+                this.destination.getId(),
                 this.getType(),
-                BigDecimal.valueOf(this.getValue(), 2),
+                this.getValue(),
                 this.getReferenceId(),
                 this.getCreatedAt(),
                 this.getUpdatedAt()

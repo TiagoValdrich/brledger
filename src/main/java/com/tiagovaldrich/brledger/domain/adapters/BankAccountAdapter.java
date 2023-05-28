@@ -28,6 +28,6 @@ public class BankAccountAdapter implements BankAccountService {
 
     @Override
     public BankAccount getBankAccountById(Long id) {
-        return repository.getById(id).orElse(null);
+        return repository.getBankAccountById(id).orElse(null);
     }
 }

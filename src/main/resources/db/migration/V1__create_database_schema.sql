@@ -1,8 +1,3 @@
-CREATE TYPE public.movement_entry_type AS ENUM (
-    'DEBIT',
-    'CREDIT'
-);
-
 CREATE TABLE public.bank_account (
     id bigint not null,
     holder_name text not null,
@@ -20,7 +15,7 @@ CREATE TABLE public.movement (
     description text not null,
     origin bigint not null,
     destination bigint not null,
-    type movement_entry_type not null,
+    type varchar(255) not null,
     value bigint not null,
     reference_id text not null,
     created_at timestamp with time zone not null,
@@ -32,6 +27,8 @@ ALTER TABLE public.bank_account
 
 ALTER TABLE public.movement
     ADD CONSTRAINT movement_id_pkey PRIMARY KEY (id);
+
+CREATE SEQUENCE movement_id_seq_gen AS bigint INCREMENT BY 1 START WITH 1;
 
 ALTER TABLE public.movement
     ADD CONSTRAINT movement_origin_fkey FOREIGN KEY (origin) REFERENCES public.bank_account(id);

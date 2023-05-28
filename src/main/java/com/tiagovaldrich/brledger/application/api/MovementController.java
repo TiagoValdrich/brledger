@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/movement")
 @AllArgsConstructor
@@ -19,4 +21,17 @@ public class MovementController {
         this.movementService.createMovementation(dto);
     }
 
+    @GetMapping("/{id}")
+    public MovementDTO getMovement(@PathVariable("id") Long id) {
+        return this.movementService.getMovementById(id).toDTO();
+    }
+
+    @GetMapping
+    public List<MovementDTO> getMovements() {
+        return this.movementService
+                .getMovements()
+                .stream()
+                .map(movement -> movement.toDTO())
+                .toList();
+    }
 }

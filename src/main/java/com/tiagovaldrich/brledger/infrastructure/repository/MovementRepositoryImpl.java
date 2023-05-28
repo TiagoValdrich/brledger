@@ -36,7 +36,7 @@ public class MovementRepositoryImpl implements MovementRepository {
     public List<Movement> getMovements() {
         return jpaPostgresMovementRepository
                 .findAll()
-                .stream()
+                .parallelStream()
                 .map(movementMapper::fromJpaEntityToDomain)
                 .toList();
     }

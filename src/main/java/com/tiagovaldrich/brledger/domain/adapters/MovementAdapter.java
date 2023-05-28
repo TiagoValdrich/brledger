@@ -1,6 +1,7 @@
 package com.tiagovaldrich.brledger.domain.adapters;
 
 import com.tiagovaldrich.brledger.application.dto.MovementDTO;
+import com.tiagovaldrich.brledger.domain.ports.BankAccountRepository;
 import com.tiagovaldrich.brledger.domain.ports.MovementService;
 import com.tiagovaldrich.brledger.common.exceptions.BusinessRuleException;
 import com.tiagovaldrich.brledger.domain.entities.Movement;
@@ -15,6 +16,7 @@ import java.util.List;
 public class MovementAdapter implements MovementService {
 
     private MovementRepository repository;
+    private BankAccountRepository bankAccountRepository;
 
     public List<Movement> getMovements() {
         return repository.getMovements();
@@ -24,6 +26,23 @@ public class MovementAdapter implements MovementService {
     public Movement createMovementation(MovementDTO movementDTO) throws BusinessRuleException {
         var movement = Movement.fromDTO(movementDTO);
         var currentTime = ZonedDateTime.now(DefaultTimezoneService.obtain());
+
+        Runnable bankAccountNotFound = () -> {
+            throw new BusinessRuleException("bank account not found");
+        };
+
+        bankAccountRepository
+                .getBankAccountById(movementDTO.origin())
+                .ifPresentOrElse(
+                        origin -> movement.setOrigin(origin),
+                        bankAccountNotFound
+                );
+        bankAccountRepository
+                .getBankAccountById(movementDTO.destination())
+                .ifPresentOrElse(
+                        destination -> movement.setDestination(destination),
+                        bankAccountNotFound
+                );
 
         movement.validate();
         movement.setId(null);

@@ -15,8 +15,8 @@ import java.time.ZonedDateTime;
 public class MovementJpaEntity {
 
     @Id
-    @GeneratedValue(generator = "movement_id_seq_gen")
     @SequenceGenerator(name = "movement_id_seq_gen", sequenceName = "movement_id_seq_gen", allocationSize = 1)
+    @GeneratedValue(generator = "movement_id_seq_gen")
     private Long id;
 
     private ZonedDateTime date;
@@ -24,11 +24,14 @@ public class MovementJpaEntity {
     private String description;
 
     @ManyToOne
+    @JoinColumn(name = "origin")
     private BankAccountJpaEntity origin;
 
     @ManyToOne
+    @JoinColumn(name = "destination")
     private BankAccountJpaEntity destination;
 
+    @Enumerated(EnumType.STRING)
     private EntryType type;
 
     private Long value;

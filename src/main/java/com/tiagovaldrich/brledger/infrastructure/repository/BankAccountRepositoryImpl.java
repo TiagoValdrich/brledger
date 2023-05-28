@@ -37,13 +37,13 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
     public List<BankAccount> getBankAccounts() {
         return jpaPostgresBankAccountRepository
                 .findAll()
-                .stream()
+                .parallelStream()
                 .map(bankAccountMapper::fromJpaEntityToDomain)
                 .toList();
     }
 
     @Override
-    public Optional<BankAccount> getById(Long id) {
+    public Optional<BankAccount> getBankAccountById(Long id) {
         BankAccountJpaEntity jpaBankAccount;
 
         try {

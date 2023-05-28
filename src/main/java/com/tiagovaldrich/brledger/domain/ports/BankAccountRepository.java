@@ -11,5 +11,5 @@ public interface BankAccountRepository {
 
     List<BankAccount> getBankAccounts();
 
-    Optional<BankAccount> getById(Long id);
+    Optional<BankAccount> getBankAccountById(Long id);
 }
