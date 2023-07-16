@@ -48,7 +48,18 @@ public class MovementRepositoryImpl implements MovementRepository {
         try {
             jpaMovement = jpaPostgresMovementRepository.getReferenceById(id);
         } catch (EntityNotFoundException e) {
-            return Optional.of(null);
+            return Optional.empty();
+        }
+
+        return Optional.of(movementMapper.fromJpaEntityToDomain(jpaMovement));
+    }
+
+    @Override
+    public Optional<Movement> getLastAccountMovement(Long bankAccountId) {
+        var jpaMovement = jpaPostgresMovementRepository.getLastAccountMovement(bankAccountId);
+
+        if (jpaMovement == null) {
+            return Optional.empty();
         }
 
         return Optional.of(movementMapper.fromJpaEntityToDomain(jpaMovement));

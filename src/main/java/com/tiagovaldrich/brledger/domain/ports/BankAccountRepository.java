@@ -9,7 +9,7 @@ public interface BankAccountRepository {
 
     BankAccount create(BankAccount bankAccount);
 
-    List<BankAccount> getBankAccounts();
+    List<BankAccount> get();
 
-    Optional<BankAccount> getBankAccountById(Long id);
+    Optional<BankAccount> getById(Long id);
 }

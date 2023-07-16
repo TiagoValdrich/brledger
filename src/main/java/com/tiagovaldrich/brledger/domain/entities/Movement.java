@@ -2,8 +2,10 @@ package com.tiagovaldrich.brledger.domain.entities;
 
 import com.tiagovaldrich.brledger.application.dto.MovementDTO;
 import com.tiagovaldrich.brledger.common.enums.EntryType;
+import com.tiagovaldrich.brledger.common.enums.TransactionType;
 import com.tiagovaldrich.brledger.common.exceptions.BusinessRuleException;
 import lombok.*;
+import org.hibernate.Transaction;
 
 import java.time.ZonedDateTime;
 
@@ -15,10 +17,12 @@ public class Movement {
     private Long id;
     private ZonedDateTime date;
     private String description;
-    private BankAccount origin;
-    private BankAccount destination;
+    private BankAccount bankAccount;
+    private BankAccount counterpartyBankAccount;
     private EntryType type;
+    private TransactionType transactionType;
     private Long value;
+    private Long balance;
     private String referenceId;
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
@@ -28,10 +32,12 @@ public class Movement {
                 movement.id(),
                 movement.date(),
                 movement.description(),
-                null,
-                null,
+                BankAccount.fromDTO(movement.bankAccount()),
+                BankAccount.fromDTO(movement.counterpartyBankAccount()),
                 movement.type(),
+                movement.transactionType(),
                 movement.value(),
+                movement.balance(),
                 movement.referenceId(),
                 movement.createdAt(),
                 movement.updatedAt()
@@ -43,23 +49,15 @@ public class Movement {
                 this.getId(),
                 this.getDate(),
                 this.getDescription(),
-                this.origin.getId(),
-                this.destination.getId(),
+                this.bankAccount.toDTO(),
+                this.counterpartyBankAccount.toDTO(),
                 this.getType(),
+                this.getTransactionType(),
                 this.getValue(),
+                this.getBalance(),
                 this.getReferenceId(),
                 this.getCreatedAt(),
                 this.getUpdatedAt()
         );
-    }
-
-    public void validate() throws BusinessRuleException {
-        if (value.floatValue() < 0) {
-            throw new BusinessRuleException("MovementJpaEntity value can't be negative");
-        }
-
-        if (referenceId == null || referenceId.isEmpty() || referenceId.isBlank()) {
-            throw new BusinessRuleException("MovementJpaEntity reference id can't be null or empty");
-        }
     }
 }

@@ -9,5 +9,6 @@ public record BankAccountDTO (
         String bank,
         String branch,
         String number,
-        String txId
+        String txId,
+        Boolean external
 ) {}

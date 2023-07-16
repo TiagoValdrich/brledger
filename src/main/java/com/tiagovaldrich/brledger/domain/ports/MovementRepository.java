@@ -11,4 +11,6 @@ public interface MovementRepository {
     List<Movement> getMovements();
 
     Optional<Movement> getById(Long id);
+
+    Optional<Movement> getLastAccountMovement(Long bankAccountId);
 }

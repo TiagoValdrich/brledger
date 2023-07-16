@@ -26,9 +26,11 @@ public class BankAccountJpaEntity extends BaseEntity {
     @Column(name = "tx_id")
     private String txId;
 
-    @OneToMany(mappedBy = "origin", fetch = FetchType.LAZY)
+    private Boolean external;
+
+    @OneToMany(mappedBy = "bankAccount", fetch = FetchType.LAZY)
     private List<MovementJpaEntity> createdMovementations;
 
-    @OneToMany(mappedBy = "destination", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "counterpartyBankAccount", fetch = FetchType.LAZY)
     private List<MovementJpaEntity> receivedMovementations;
 }

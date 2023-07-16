@@ -14,6 +14,7 @@ public class BankAccountMapper {
                 .branch(bankAccount.getBranch())
                 .number(bankAccount.getNumber())
                 .txId(bankAccount.getTxId())
+                .external(bankAccount.getExternal())
                 .build();
 
         bankAccountJpa.setId(bankAccount.getId());
@@ -29,6 +30,7 @@ public class BankAccountMapper {
                 .branch(bankAccountJpa.getBranch())
                 .number(bankAccountJpa.getNumber())
                 .txId(bankAccountJpa.getTxId())
+                .external(bankAccountJpa.getExternal())
                 .build();
     }
 }

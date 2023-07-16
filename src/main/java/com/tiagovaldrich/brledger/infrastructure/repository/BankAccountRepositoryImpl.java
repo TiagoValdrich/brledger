@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.html.Option;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +35,7 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
     }
 
     @Override
-    public List<BankAccount> getBankAccounts() {
+    public List<BankAccount> get() {
         return jpaPostgresBankAccountRepository
                 .findAll()
                 .parallelStream()
@@ -43,7 +44,7 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
     }
 
     @Override
-    public Optional<BankAccount> getBankAccountById(Long id) {
+    public Optional<BankAccount> getById(Long id) {
         BankAccountJpaEntity jpaBankAccount;
 
         try {

@@ -1,6 +1,7 @@
 package com.tiagovaldrich.brledger.infrastructure.entities;
 
 import com.tiagovaldrich.brledger.common.enums.EntryType;
+import com.tiagovaldrich.brledger.common.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,17 +25,23 @@ public class MovementJpaEntity {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "origin")
-    private BankAccountJpaEntity origin;
+    @JoinColumn(name = "bank_account")
+    private BankAccountJpaEntity bankAccount;
 
     @ManyToOne
-    @JoinColumn(name = "destination")
-    private BankAccountJpaEntity destination;
+    @JoinColumn(name = "counterparty_bank_account")
+    private BankAccountJpaEntity counterpartyBankAccount;
 
     @Enumerated(EnumType.STRING)
     private EntryType type;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "transaction_type")
+    private TransactionType transactionType;
+
     private Long value;
+
+    private Long balance;
 
     @Column(name = "reference_id")
     private String referenceId;

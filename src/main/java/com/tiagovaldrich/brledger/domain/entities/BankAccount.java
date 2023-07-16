@@ -17,6 +17,7 @@ public class BankAccount {
     private String branch;
     private String number;
     private String txId;
+    private Boolean external;
 
     public static BankAccount fromDTO(BankAccountDTO dto) {
         return BankAccount.builder()
@@ -26,6 +27,7 @@ public class BankAccount {
                 .branch(dto.branch())
                 .number(dto.number())
                 .txId(dto.txId())
+                .external(dto.external())
                 .build();
     }
 
@@ -36,7 +38,8 @@ public class BankAccount {
                 this.getBank(),
                 this.getBank(),
                 this.getNumber(),
-                this.getTxId()
+                this.getTxId(),
+                this.getExternal()
         );
     }
 }
