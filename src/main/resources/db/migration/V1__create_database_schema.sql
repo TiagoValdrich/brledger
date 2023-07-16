@@ -68,4 +68,5 @@ ALTER TABLE public.movement
 ALTER TABLE public.movement
     ADD CONSTRAINT movement_counterparty_bank_account_fkey FOREIGN KEY (counterparty_bank_account) REFERENCES public.bank_account(id);
 
-CREATE INDEX idx_movement_reference_id ON public.movement USING btree (reference_id);
+ALTER TABLE public.movement
+    ADD CONSTRAINT unique_movement_reference_id UNIQUE (reference_id);
