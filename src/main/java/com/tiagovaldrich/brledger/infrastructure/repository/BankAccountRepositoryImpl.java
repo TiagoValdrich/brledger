@@ -6,6 +6,7 @@ import com.tiagovaldrich.brledger.domain.ports.BankAccountRepository;
 import com.tiagovaldrich.brledger.infrastructure.entities.BankAccountJpaEntity;
 import com.tiagovaldrich.brledger.infrastructure.mappers.BankAccountMapper;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
 
 
     @Override
+    @Transactional
     public BankAccount create(BankAccount bankAccount) {
         var jpaBankAccount = bankAccountMapper.fromDomainEntityToJpa(bankAccount);
         var currentTime = ZonedDateTime.now(DefaultTimezoneService.obtain());
@@ -44,13 +46,26 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
     }
 
     @Override
+    @Transactional
     public Optional<BankAccount> getById(Long id) {
         BankAccountJpaEntity jpaBankAccount;
 
         try {
             jpaBankAccount = jpaPostgresBankAccountRepository.getReferenceById(id);
         } catch (EntityNotFoundException e) {
-            return Optional.of(null);
+            return Optional.empty();
+        }
+
+        return Optional.of(bankAccountMapper.fromJpaEntityToDomain(jpaBankAccount));
+    }
+
+    @Override
+    @Transactional
+    public Optional<BankAccount> getByBankAndBranchAndNumber(String bank, String branch, String number) {
+        var jpaBankAccount = jpaPostgresBankAccountRepository.getByBankAndBranchAndNumber(bank, branch, number);
+
+        if (jpaBankAccount == null) {
+            return Optional.empty();
         }
 
         return Optional.of(bankAccountMapper.fromJpaEntityToDomain(jpaBankAccount));

@@ -12,4 +12,6 @@ public interface BankAccountRepository {
     List<BankAccount> get();
 
     Optional<BankAccount> getById(Long id);
+
+    Optional<BankAccount> getByBankAndBranchAndNumber(String bank, String branch, String number);
 }

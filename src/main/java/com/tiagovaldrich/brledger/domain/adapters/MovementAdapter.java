@@ -65,6 +65,19 @@ public class MovementAdapter implements MovementService {
                     .orElseThrow(() -> new BusinessRuleException("Bank account not found"));
         }
 
+        var existingBankAccount = bankAccountRepository
+                .getByBankAndBranchAndNumber(bankAccountDTO.bank(), bankAccountDTO.branch(), bankAccountDTO.number());
+
+        if (existingBankAccount.isPresent()) {
+            var bankAccount = existingBankAccount.get();
+
+            if (bankAccount.getTxId().equals(bankAccountDTO.txId())) {
+                return bankAccount;
+            }
+
+            throw new BusinessRuleException("Bank account already exists but belongs to another legal or natural person");
+        }
+
         return bankAccountRepository.create(BankAccount.fromDTO(bankAccountDTO));
     }
 

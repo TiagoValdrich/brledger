@@ -6,6 +6,7 @@ import com.tiagovaldrich.brledger.domain.ports.MovementRepository;
 import com.tiagovaldrich.brledger.infrastructure.entities.MovementJpaEntity;
 import com.tiagovaldrich.brledger.infrastructure.mappers.MovementMapper;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ public class MovementRepositoryImpl implements MovementRepository {
     private final JpaPostgresMovementRepository jpaPostgresMovementRepository;
 
     @Override
+    @Transactional
     public Movement create(Movement movement) {
         var jpaMovement = movementMapper.fromDomainEntityToJpa(movement);
         var currentTime = ZonedDateTime.now(DefaultTimezoneService.obtain());
@@ -42,6 +44,7 @@ public class MovementRepositoryImpl implements MovementRepository {
     }
 
     @Override
+    @Transactional
     public Optional<Movement> getById(Long id) {
         MovementJpaEntity jpaMovement;
 
@@ -55,6 +58,7 @@ public class MovementRepositoryImpl implements MovementRepository {
     }
 
     @Override
+    @Transactional
     public Optional<Movement> getLastAccountMovement(Long bankAccountId) {
         var jpaMovement = jpaPostgresMovementRepository.getLastAccountMovement(bankAccountId);
 

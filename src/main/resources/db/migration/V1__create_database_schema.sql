@@ -45,6 +45,9 @@ CREATE TABLE public.movement (
 ALTER TABLE public.bank_account
     ADD CONSTRAINT bank_account_id_pkey PRIMARY KEY (id);
 
+ALTER TABLE public.bank_account
+    ADD CONSTRAINT bank_account_bank_branch_account_number_unique UNIQUE (bank, branch, number);
+
 CREATE INDEX idx_bank_account_tx_id ON public.bank_account USING btree (tx_id);
 
 ALTER TABLE public.bank_account_closing_balance
